@@ -66,7 +66,11 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
       heading: '@',               // Interpolate the heading attribute onto this scope
       panelClass: '@?',           // Ditto with panelClass
       isOpen: '=?',
-      isDisabled: '=?'
+      isDisabled: '=?',
+      collapsed: '&?',
+      collapsing: '&?',
+      expanded: '&?',
+      expanding: '&?'
     },
     controller: function() {
       this.setHeading = function(element) {

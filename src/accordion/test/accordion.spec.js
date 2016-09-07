@@ -154,7 +154,7 @@ describe('uib-accordion', function() {
   });
 
   describe('uib-accordion-group', function() {
-    var scope, $compile;
+    var scope, $compile, $animate;
     var element, groups;
     var findGroupHeading = function(index) {
       return groups.eq(index).find('.panel-heading').eq(0);
@@ -166,9 +166,10 @@ describe('uib-accordion', function() {
       return groups.eq(index).find('.panel-collapse').eq(0);
     };
 
-    beforeEach(inject(function(_$rootScope_, _$compile_) {
+    beforeEach(inject(function(_$rootScope_, _$compile_, _$animate_) {
       scope = _$rootScope_;
       $compile = _$compile_;
+      $animate = _$animate_;
     }));
 
     it('should allow custom templates', inject(function($templateCache) {
@@ -620,5 +621,53 @@ describe('uib-accordion', function() {
           expect(findGroupLink(0).text()).toBe('baz');
       }));
     });
+
+    describe('event', function() {
+      beforeEach(function() {
+        var tpl =
+          '<uib-accordion>' +
+            '<div uib-accordion-group heading="A heading" expanding="expanding()" expanded="expanded()" collapsed="collapsed()" collapsing="collapsing()">' +
+              'Body' +
+            '</div>' +
+          '</uib-accordion>';
+        element = $compile(tpl)(scope);
+        scope.$digest();
+        groups = element.find('.panel');
+      });
+
+      it('on expanding is triggered', function() {
+        scope.expanding = function() {};
+        spyOn(scope, 'expanding');
+        findGroupLink(0).click();
+        expect(scope.expanding).toHaveBeenCalled();
+      });
+
+      it('on expanded is triggered', function() {
+        scope.expanded = function() {};
+        spyOn(scope, 'expanded');
+        findGroupLink(0).click();
+        $animate.flush();
+        expect(scope.expanded).toHaveBeenCalled();
+      });
+
+      it('on collapsed is triggered', function() {
+        scope.collapsed = function() {};
+        spyOn(scope, 'collapsed');
+        findGroupLink(0).click();
+        findGroupLink(0).click();
+        expect(scope.collapsed).toHaveBeenCalled();
+      });
+
+      it('on collapsing is triggered', function() {
+        scope.collapsing = function() {};
+        spyOn(scope, 'collapsing');
+        findGroupLink(0).click();
+        $animate.flush();
+        findGroupLink(0).click();
+        expect(scope.collapsing).toHaveBeenCalled();
+      });
+
+    });
+
   });
 });
