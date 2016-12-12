@@ -16,6 +16,26 @@ The body of each accordion group is transcluded into the body of the collapsible
 
 ### uib-accordion-group settings
 
+* `collapsed()`
+  <small class="badge">$</small> -
+  An optional expression called after the element finished collapsing.
+
+* `collapsing()`
+  <small class="badge">$</small> -
+  An optional expression called before the element begins collapsing.
+  If the expression returns a promise, animation won't start until the promise resolves.
+  If the returned promise is rejected, collapsing will be cancelled.
+
+* `expanded()`
+  <small class="badge">$</small> -
+  An optional expression called after the element finished expanding.
+
+* `expanding()`
+  <small class="badge">$</small> -
+  An optional expression called before the element begins expanding.
+  If the expression returns a promise, animation won't start until the promise resolves.
+  If the returned promise is rejected, expanding will be cancelled.
+
 * `heading`
   _(Default: `none`)_ -
   The clickable text on the group's header. You need one to be able to click on the header for toggling.
